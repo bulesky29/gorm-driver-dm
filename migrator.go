@@ -54,21 +54,19 @@ func (m Migrator) CreateIndex(value interface{}, name string) error {
 
 			createIndexSQL := "CREATE "
 			if idx.Class != "" {
-				if idx.Class == "FULLTEXT"{
+				if idx.Class == "FULLTEXT" {
 					createIndexSQL += "CONTEXT" + " "
-					}
-				else{
-				createIndexSQL += idx.Class + " "
-					}
+				} else {
+					createIndexSQL += idx.Class + " "
+				}
 			}
 			createIndexSQL += "INDEX ? ON ??"
 
 			if idx.Type != "" {
-				if idx.Class == "FULLTEXT"{
-					}
-				else{
-				createIndexSQL += " USING " + idx.Type
-					}
+				if idx.Class == "FULLTEXT" {
+				} else {
+					createIndexSQL += " USING " + idx.Type
+				}
 			}
 
 			//if idx.Comment != "" {
