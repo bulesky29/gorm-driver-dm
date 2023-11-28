@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dmr
+package dm
 
 import (
 	"context"
@@ -97,6 +97,18 @@ func (ep *ep) calcSort(loginMode int32) int32 {
 				sort += SORT_PRIMARY * 10
 			case SERVER_MODE_STANDBY:
 				sort += SORT_STANDBY * 100
+			}
+		}
+	case LOGIN_MODE_NORMAL_FIRST:
+		{
+			// NORMAL优先: NORMAL>PRIMARY>STANDBY
+			switch ep.serverMode {
+			case SERVER_MODE_STANDBY:
+				sort += SORT_STANDBY
+			case SERVER_MODE_PRIMARY:
+				sort += SORT_PRIMARY * 10
+			case SERVER_MODE_NORMAL:
+				sort += SORT_NORMAL * 100
 			}
 		}
 	case LOGIN_MODE_PRIMARY_ONLY:

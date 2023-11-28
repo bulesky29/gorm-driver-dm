@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dmr
+package dm
 
 import (
 	"bytes"
@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/bulesky29/gorm-driver-dm/dmr/util"
+	"gitee.com/chunanyong/dm/util"
 )
 
 /**

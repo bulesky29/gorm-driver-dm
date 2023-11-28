@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dmr
+package dm
 
 import (
 	"bufio"
@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/bulesky29/gorm-driver-dm/dmr/util"
+	"gitee.com/chunanyong/dm/util"
 )
 
 var LogDirDef, _ = os.Getwd()
@@ -50,9 +50,11 @@ const (
 
 	ENCODING_GB18030 string = "GB18030"
 
+	ENCODING_BIG5 string = "BIG5"
+
 	DbAliveCheckFreqDef = 0
 
-	LocaleDef = 0
+	LocaleDef = LANGUAGE_CN
 
 	// log
 	LogLevelDef = LOG_OFF // 日志级别：off, error, warn, sql, info, all
@@ -404,11 +406,18 @@ func parseLanguage(value string) {
 		Locale = 0
 	} else if util.StringUtil.EqualsIgnoreCase("en", value) {
 		Locale = 1
+	} else if util.StringUtil.EqualsIgnoreCase("cnt_hk", value) ||
+		util.StringUtil.EqualsIgnoreCase("hk", value) ||
+		util.StringUtil.EqualsIgnoreCase("tw", value) {
+		Locale = 2
 	}
 }
 
 func IsSupportedCharset(charset string) bool {
-	if util.StringUtil.EqualsIgnoreCase(ENCODING_UTF8, charset) || util.StringUtil.EqualsIgnoreCase(ENCODING_GB18030, charset) || util.StringUtil.EqualsIgnoreCase(ENCODING_EUCKR, charset) {
+	if util.StringUtil.EqualsIgnoreCase(ENCODING_UTF8, charset) ||
+		util.StringUtil.EqualsIgnoreCase(ENCODING_GB18030, charset) ||
+		util.StringUtil.EqualsIgnoreCase(ENCODING_EUCKR, charset) ||
+		util.StringUtil.EqualsIgnoreCase(ENCODING_BIG5, charset) {
 		return true
 	}
 	return false

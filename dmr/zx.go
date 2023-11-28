@@ -2,7 +2,7 @@
  * Copyright (c) 2000-2018, 达梦数据库有限公司.
  * All rights reserved.
  */
-package dmr
+package dm
 
 import (
 	"context"
@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bulesky29/gorm-driver-dm/dmr/util"
+	"gitee.com/chunanyong/dm/util"
 )
 
 const (
@@ -198,14 +198,14 @@ func (RWUtil rwUtil) executeByConn(conn *DmConnection, query string, execute1 fu
 	}
 
 	switch curConn.lastExecInfo.retSqlType {
-	case Dm_build_691, Dm_build_692, Dm_build_696, Dm_build_703, Dm_build_702, Dm_build_694:
+	case Dm_build_371, Dm_build_372, Dm_build_376, Dm_build_383, Dm_build_382, Dm_build_374:
 		{
 
 			if otherConn != nil {
 				execute2(otherConn)
 			}
 		}
-	case Dm_build_701:
+	case Dm_build_381:
 		{
 
 			sqlhead := regexp.MustCompile("[ (]").Split(strings.TrimSpace(query), 2)[0]
@@ -215,7 +215,7 @@ func (RWUtil rwUtil) executeByConn(conn *DmConnection, query string, execute1 fu
 				}
 			}
 		}
-	case Dm_build_700:
+	case Dm_build_380:
 		{
 
 			if conn.dmConnector.rwHA && curConn == conn.rwInfo.connStandby &&
@@ -269,7 +269,7 @@ func (RWUtil rwUtil) executeByStmt(stmt *DmStatement, execute1 func() (interface
 	}
 
 	switch curStmt.execInfo.retSqlType {
-	case Dm_build_691, Dm_build_692, Dm_build_696, Dm_build_703, Dm_build_702, Dm_build_694:
+	case Dm_build_371, Dm_build_372, Dm_build_376, Dm_build_383, Dm_build_382, Dm_build_374:
 		{
 
 			if otherStmt != nil {
@@ -277,7 +277,7 @@ func (RWUtil rwUtil) executeByStmt(stmt *DmStatement, execute1 func() (interface
 				execute2(otherStmt)
 			}
 		}
-	case Dm_build_701:
+	case Dm_build_381:
 		{
 
 			var tmpsql string
@@ -296,7 +296,7 @@ func (RWUtil rwUtil) executeByStmt(stmt *DmStatement, execute1 func() (interface
 				}
 			}
 		}
-	case Dm_build_700:
+	case Dm_build_380:
 		{
 
 			if stmt.dmConn.dmConnector.rwHA && curStmt == stmt.rwInfo.stmtStandby &&
@@ -415,7 +415,7 @@ func (RWUtil rwUtil) isStandbyStatementValid(statement *DmStatement) bool {
 
 func (RWUtil rwUtil) copyStatement(srcStmt *DmStatement, destStmt *DmStatement) {
 	destStmt.nativeSql = srcStmt.nativeSql
-	destStmt.params = srcStmt.params
+	destStmt.serverParams = srcStmt.serverParams
+	destStmt.bindParams = srcStmt.bindParams
 	destStmt.paramCount = srcStmt.paramCount
-	destStmt.curRowBindIndicator = srcStmt.curRowBindIndicator
 }

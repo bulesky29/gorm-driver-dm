@@ -2,16 +2,16 @@
  * Copyright (c) 2000-2018, 达梦数据库有限公司.
  * All rights reserved.
  */
-package dmr
+package dm
 
 import (
 	"bytes"
 	"strconv"
 	"strings"
 
-	"github.com/bulesky29/gorm-driver-dm/dmr/util"
+	"gitee.com/chunanyong/dm/parser"
 
-	"github.com/bulesky29/gorm-driver-dm/dmr/parser"
+	"gitee.com/chunanyong/dm/util"
 )
 
 func (dc *DmConnection) lex(sql string) ([]*parser.LVal, error) {
@@ -252,7 +252,7 @@ func (dc *DmConnection) execOpt(sql string, optParamList []OptParameter, serverE
 					nsql.WriteString("'" + util.StringUtil.ProcessSingleQuoteOfName(lval.Value) + "'")
 				} else {
 					nsql.WriteString("?")
-					optParamList = append(optParamList, newOptParameter(Dm_build_1220.Dm_build_1433(lval.Value, serverEncoding, dc), VARCHAR, VARCHAR_PREC))
+					optParamList = append(optParamList, newOptParameter(Dm_build_920.Dm_build_1136(lval.Value, serverEncoding, dc), VARCHAR, VARCHAR_PREC))
 				}
 			}
 		case parser.HEX_INT:

@@ -3,14 +3,14 @@
  * All rights reserved.
  */
 
-package dmr
+package dm
 
 import (
 	"math/rand"
 	"strconv"
 	"time"
 
-	"github.com/bulesky29/gorm-driver-dm/dmr/util"
+	"gitee.com/chunanyong/dm/util"
 )
 
 var rwMap = make(map[string]*rwCounter)

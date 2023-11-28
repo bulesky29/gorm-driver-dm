@@ -2,7 +2,7 @@
  * Copyright (c) 2000-2018, 达梦数据库有限公司.
  * All rights reserved.
  */
-package dmr
+package dm
 
 import (
 	"bytes"
@@ -14,321 +14,325 @@ import (
 	"math"
 )
 
-type dm_build_1219 struct{}
+type dm_build_919 struct{}
 
-var Dm_build_1220 = &dm_build_1219{}
+var Dm_build_920 = &dm_build_919{}
 
-func (Dm_build_1222 *dm_build_1219) Dm_build_1221(dm_build_1223 []byte, dm_build_1224 int, dm_build_1225 byte) int {
-	dm_build_1223[dm_build_1224] = dm_build_1225
+func (Dm_build_922 *dm_build_919) Dm_build_921(dm_build_923 []byte, dm_build_924 int, dm_build_925 byte) int {
+	dm_build_923[dm_build_924] = dm_build_925
 	return 1
 }
 
-func (Dm_build_1227 *dm_build_1219) Dm_build_1226(dm_build_1228 []byte, dm_build_1229 int, dm_build_1230 int8) int {
-	dm_build_1228[dm_build_1229] = byte(dm_build_1230)
+func (Dm_build_927 *dm_build_919) Dm_build_926(dm_build_928 []byte, dm_build_929 int, dm_build_930 int8) int {
+	dm_build_928[dm_build_929] = byte(dm_build_930)
 	return 1
 }
 
-func (Dm_build_1232 *dm_build_1219) Dm_build_1231(dm_build_1233 []byte, dm_build_1234 int, dm_build_1235 int16) int {
-	dm_build_1233[dm_build_1234] = byte(dm_build_1235)
-	dm_build_1234++
-	dm_build_1233[dm_build_1234] = byte(dm_build_1235 >> 8)
+func (Dm_build_932 *dm_build_919) Dm_build_931(dm_build_933 []byte, dm_build_934 int, dm_build_935 int16) int {
+	dm_build_933[dm_build_934] = byte(dm_build_935)
+	dm_build_934++
+	dm_build_933[dm_build_934] = byte(dm_build_935 >> 8)
 	return 2
 }
 
-func (Dm_build_1237 *dm_build_1219) Dm_build_1236(dm_build_1238 []byte, dm_build_1239 int, dm_build_1240 int32) int {
-	dm_build_1238[dm_build_1239] = byte(dm_build_1240)
-	dm_build_1239++
-	dm_build_1238[dm_build_1239] = byte(dm_build_1240 >> 8)
-	dm_build_1239++
-	dm_build_1238[dm_build_1239] = byte(dm_build_1240 >> 16)
-	dm_build_1239++
-	dm_build_1238[dm_build_1239] = byte(dm_build_1240 >> 24)
-	dm_build_1239++
+func (Dm_build_937 *dm_build_919) Dm_build_936(dm_build_938 []byte, dm_build_939 int, dm_build_940 int32) int {
+	dm_build_938[dm_build_939] = byte(dm_build_940)
+	dm_build_939++
+	dm_build_938[dm_build_939] = byte(dm_build_940 >> 8)
+	dm_build_939++
+	dm_build_938[dm_build_939] = byte(dm_build_940 >> 16)
+	dm_build_939++
+	dm_build_938[dm_build_939] = byte(dm_build_940 >> 24)
+	dm_build_939++
 	return 4
 }
 
-func (Dm_build_1242 *dm_build_1219) Dm_build_1241(dm_build_1243 []byte, dm_build_1244 int, dm_build_1245 int64) int {
-	dm_build_1243[dm_build_1244] = byte(dm_build_1245)
-	dm_build_1244++
-	dm_build_1243[dm_build_1244] = byte(dm_build_1245 >> 8)
-	dm_build_1244++
-	dm_build_1243[dm_build_1244] = byte(dm_build_1245 >> 16)
-	dm_build_1244++
-	dm_build_1243[dm_build_1244] = byte(dm_build_1245 >> 24)
-	dm_build_1244++
-	dm_build_1243[dm_build_1244] = byte(dm_build_1245 >> 32)
-	dm_build_1244++
-	dm_build_1243[dm_build_1244] = byte(dm_build_1245 >> 40)
-	dm_build_1244++
-	dm_build_1243[dm_build_1244] = byte(dm_build_1245 >> 48)
-	dm_build_1244++
-	dm_build_1243[dm_build_1244] = byte(dm_build_1245 >> 56)
+func (Dm_build_942 *dm_build_919) Dm_build_941(dm_build_943 []byte, dm_build_944 int, dm_build_945 int64) int {
+	dm_build_943[dm_build_944] = byte(dm_build_945)
+	dm_build_944++
+	dm_build_943[dm_build_944] = byte(dm_build_945 >> 8)
+	dm_build_944++
+	dm_build_943[dm_build_944] = byte(dm_build_945 >> 16)
+	dm_build_944++
+	dm_build_943[dm_build_944] = byte(dm_build_945 >> 24)
+	dm_build_944++
+	dm_build_943[dm_build_944] = byte(dm_build_945 >> 32)
+	dm_build_944++
+	dm_build_943[dm_build_944] = byte(dm_build_945 >> 40)
+	dm_build_944++
+	dm_build_943[dm_build_944] = byte(dm_build_945 >> 48)
+	dm_build_944++
+	dm_build_943[dm_build_944] = byte(dm_build_945 >> 56)
 	return 8
 }
 
-func (Dm_build_1247 *dm_build_1219) Dm_build_1246(dm_build_1248 []byte, dm_build_1249 int, dm_build_1250 float32) int {
-	return Dm_build_1247.Dm_build_1266(dm_build_1248, dm_build_1249, math.Float32bits(dm_build_1250))
+func (Dm_build_947 *dm_build_919) Dm_build_946(dm_build_948 []byte, dm_build_949 int, dm_build_950 float32) int {
+	return Dm_build_947.Dm_build_966(dm_build_948, dm_build_949, math.Float32bits(dm_build_950))
 }
 
-func (Dm_build_1252 *dm_build_1219) Dm_build_1251(dm_build_1253 []byte, dm_build_1254 int, dm_build_1255 float64) int {
-	return Dm_build_1252.Dm_build_1271(dm_build_1253, dm_build_1254, math.Float64bits(dm_build_1255))
+func (Dm_build_952 *dm_build_919) Dm_build_951(dm_build_953 []byte, dm_build_954 int, dm_build_955 float64) int {
+	return Dm_build_952.Dm_build_971(dm_build_953, dm_build_954, math.Float64bits(dm_build_955))
 }
 
-func (Dm_build_1257 *dm_build_1219) Dm_build_1256(dm_build_1258 []byte, dm_build_1259 int, dm_build_1260 uint8) int {
-	dm_build_1258[dm_build_1259] = byte(dm_build_1260)
+func (Dm_build_957 *dm_build_919) Dm_build_956(dm_build_958 []byte, dm_build_959 int, dm_build_960 uint8) int {
+	dm_build_958[dm_build_959] = byte(dm_build_960)
 	return 1
 }
 
-func (Dm_build_1262 *dm_build_1219) Dm_build_1261(dm_build_1263 []byte, dm_build_1264 int, dm_build_1265 uint16) int {
-	dm_build_1263[dm_build_1264] = byte(dm_build_1265)
-	dm_build_1264++
-	dm_build_1263[dm_build_1264] = byte(dm_build_1265 >> 8)
+func (Dm_build_962 *dm_build_919) Dm_build_961(dm_build_963 []byte, dm_build_964 int, dm_build_965 uint16) int {
+	dm_build_963[dm_build_964] = byte(dm_build_965)
+	dm_build_964++
+	dm_build_963[dm_build_964] = byte(dm_build_965 >> 8)
 	return 2
 }
 
-func (Dm_build_1267 *dm_build_1219) Dm_build_1266(dm_build_1268 []byte, dm_build_1269 int, dm_build_1270 uint32) int {
-	dm_build_1268[dm_build_1269] = byte(dm_build_1270)
-	dm_build_1269++
-	dm_build_1268[dm_build_1269] = byte(dm_build_1270 >> 8)
-	dm_build_1269++
-	dm_build_1268[dm_build_1269] = byte(dm_build_1270 >> 16)
-	dm_build_1269++
-	dm_build_1268[dm_build_1269] = byte(dm_build_1270 >> 24)
+func (Dm_build_967 *dm_build_919) Dm_build_966(dm_build_968 []byte, dm_build_969 int, dm_build_970 uint32) int {
+	dm_build_968[dm_build_969] = byte(dm_build_970)
+	dm_build_969++
+	dm_build_968[dm_build_969] = byte(dm_build_970 >> 8)
+	dm_build_969++
+	dm_build_968[dm_build_969] = byte(dm_build_970 >> 16)
+	dm_build_969++
+	dm_build_968[dm_build_969] = byte(dm_build_970 >> 24)
 	return 3
 }
 
-func (Dm_build_1272 *dm_build_1219) Dm_build_1271(dm_build_1273 []byte, dm_build_1274 int, dm_build_1275 uint64) int {
-	dm_build_1273[dm_build_1274] = byte(dm_build_1275)
-	dm_build_1274++
-	dm_build_1273[dm_build_1274] = byte(dm_build_1275 >> 8)
-	dm_build_1274++
-	dm_build_1273[dm_build_1274] = byte(dm_build_1275 >> 16)
-	dm_build_1274++
-	dm_build_1273[dm_build_1274] = byte(dm_build_1275 >> 24)
-	dm_build_1274++
-	dm_build_1273[dm_build_1274] = byte(dm_build_1275 >> 32)
-	dm_build_1274++
-	dm_build_1273[dm_build_1274] = byte(dm_build_1275 >> 40)
-	dm_build_1274++
-	dm_build_1273[dm_build_1274] = byte(dm_build_1275 >> 48)
-	dm_build_1274++
-	dm_build_1273[dm_build_1274] = byte(dm_build_1275 >> 56)
+func (Dm_build_972 *dm_build_919) Dm_build_971(dm_build_973 []byte, dm_build_974 int, dm_build_975 uint64) int {
+	dm_build_973[dm_build_974] = byte(dm_build_975)
+	dm_build_974++
+	dm_build_973[dm_build_974] = byte(dm_build_975 >> 8)
+	dm_build_974++
+	dm_build_973[dm_build_974] = byte(dm_build_975 >> 16)
+	dm_build_974++
+	dm_build_973[dm_build_974] = byte(dm_build_975 >> 24)
+	dm_build_974++
+	dm_build_973[dm_build_974] = byte(dm_build_975 >> 32)
+	dm_build_974++
+	dm_build_973[dm_build_974] = byte(dm_build_975 >> 40)
+	dm_build_974++
+	dm_build_973[dm_build_974] = byte(dm_build_975 >> 48)
+	dm_build_974++
+	dm_build_973[dm_build_974] = byte(dm_build_975 >> 56)
 	return 3
 }
 
-func (Dm_build_1277 *dm_build_1219) Dm_build_1276(dm_build_1278 []byte, dm_build_1279 int, dm_build_1280 []byte, dm_build_1281 int, dm_build_1282 int) int {
-	copy(dm_build_1278[dm_build_1279:dm_build_1279+dm_build_1282], dm_build_1280[dm_build_1281:dm_build_1281+dm_build_1282])
-	return dm_build_1282
+func (Dm_build_977 *dm_build_919) Dm_build_976(dm_build_978 []byte, dm_build_979 int, dm_build_980 []byte, dm_build_981 int, dm_build_982 int) int {
+	copy(dm_build_978[dm_build_979:dm_build_979+dm_build_982], dm_build_980[dm_build_981:dm_build_981+dm_build_982])
+	return dm_build_982
 }
 
-func (Dm_build_1284 *dm_build_1219) Dm_build_1283(dm_build_1285 []byte, dm_build_1286 int, dm_build_1287 []byte, dm_build_1288 int, dm_build_1289 int) int {
-	dm_build_1286 += Dm_build_1284.Dm_build_1266(dm_build_1285, dm_build_1286, uint32(dm_build_1289))
-	return 4 + Dm_build_1284.Dm_build_1276(dm_build_1285, dm_build_1286, dm_build_1287, dm_build_1288, dm_build_1289)
+func (Dm_build_984 *dm_build_919) Dm_build_983(dm_build_985 []byte, dm_build_986 int, dm_build_987 []byte, dm_build_988 int, dm_build_989 int) int {
+	dm_build_986 += Dm_build_984.Dm_build_966(dm_build_985, dm_build_986, uint32(dm_build_989))
+	return 4 + Dm_build_984.Dm_build_976(dm_build_985, dm_build_986, dm_build_987, dm_build_988, dm_build_989)
 }
 
-func (Dm_build_1291 *dm_build_1219) Dm_build_1290(dm_build_1292 []byte, dm_build_1293 int, dm_build_1294 []byte, dm_build_1295 int, dm_build_1296 int) int {
-	dm_build_1293 += Dm_build_1291.Dm_build_1261(dm_build_1292, dm_build_1293, uint16(dm_build_1296))
-	return 2 + Dm_build_1291.Dm_build_1276(dm_build_1292, dm_build_1293, dm_build_1294, dm_build_1295, dm_build_1296)
+func (Dm_build_991 *dm_build_919) Dm_build_990(dm_build_992 []byte, dm_build_993 int, dm_build_994 []byte, dm_build_995 int, dm_build_996 int) int {
+	dm_build_993 += Dm_build_991.Dm_build_961(dm_build_992, dm_build_993, uint16(dm_build_996))
+	return 2 + Dm_build_991.Dm_build_976(dm_build_992, dm_build_993, dm_build_994, dm_build_995, dm_build_996)
 }
 
-func (Dm_build_1298 *dm_build_1219) Dm_build_1297(dm_build_1299 []byte, dm_build_1300 int, dm_build_1301 string, dm_build_1302 string, dm_build_1303 *DmConnection) int {
-	dm_build_1304 := Dm_build_1298.Dm_build_1433(dm_build_1301, dm_build_1302, dm_build_1303)
-	dm_build_1300 += Dm_build_1298.Dm_build_1266(dm_build_1299, dm_build_1300, uint32(len(dm_build_1304)))
-	return 4 + Dm_build_1298.Dm_build_1276(dm_build_1299, dm_build_1300, dm_build_1304, 0, len(dm_build_1304))
+func (Dm_build_998 *dm_build_919) Dm_build_997(dm_build_999 []byte, dm_build_1000 int, dm_build_1001 string, dm_build_1002 string, dm_build_1003 *DmConnection) int {
+	dm_build_1004 := Dm_build_998.Dm_build_1136(dm_build_1001, dm_build_1002, dm_build_1003)
+	dm_build_1000 += Dm_build_998.Dm_build_966(dm_build_999, dm_build_1000, uint32(len(dm_build_1004)))
+	return 4 + Dm_build_998.Dm_build_976(dm_build_999, dm_build_1000, dm_build_1004, 0, len(dm_build_1004))
 }
 
-func (Dm_build_1306 *dm_build_1219) Dm_build_1305(dm_build_1307 []byte, dm_build_1308 int, dm_build_1309 string, dm_build_1310 string, dm_build_1311 *DmConnection) int {
-	dm_build_1312 := Dm_build_1306.Dm_build_1433(dm_build_1309, dm_build_1310, dm_build_1311)
+func (Dm_build_1006 *dm_build_919) Dm_build_1005(dm_build_1007 []byte, dm_build_1008 int, dm_build_1009 string, dm_build_1010 string, dm_build_1011 *DmConnection) int {
+	dm_build_1012 := Dm_build_1006.Dm_build_1136(dm_build_1009, dm_build_1010, dm_build_1011)
 
-	dm_build_1308 += Dm_build_1306.Dm_build_1261(dm_build_1307, dm_build_1308, uint16(len(dm_build_1312)))
-	return 2 + Dm_build_1306.Dm_build_1276(dm_build_1307, dm_build_1308, dm_build_1312, 0, len(dm_build_1312))
+	dm_build_1008 += Dm_build_1006.Dm_build_961(dm_build_1007, dm_build_1008, uint16(len(dm_build_1012)))
+	return 2 + Dm_build_1006.Dm_build_976(dm_build_1007, dm_build_1008, dm_build_1012, 0, len(dm_build_1012))
 }
 
-func (Dm_build_1314 *dm_build_1219) Dm_build_1313(dm_build_1315 []byte, dm_build_1316 int) byte {
-	return dm_build_1315[dm_build_1316]
+func (Dm_build_1014 *dm_build_919) Dm_build_1013(dm_build_1015 []byte, dm_build_1016 int) byte {
+	return dm_build_1015[dm_build_1016]
 }
 
-func (Dm_build_1318 *dm_build_1219) Dm_build_1317(dm_build_1319 []byte, dm_build_1320 int) int16 {
-	var dm_build_1321 int16
-	dm_build_1321 = int16(dm_build_1319[dm_build_1320] & 0xff)
-	dm_build_1320++
-	dm_build_1321 |= int16(dm_build_1319[dm_build_1320]&0xff) << 8
-	return dm_build_1321
+func (Dm_build_1018 *dm_build_919) Dm_build_1017(dm_build_1019 []byte, dm_build_1020 int) int16 {
+	var dm_build_1021 int16
+	dm_build_1021 = int16(dm_build_1019[dm_build_1020] & 0xff)
+	dm_build_1020++
+	dm_build_1021 |= int16(dm_build_1019[dm_build_1020]&0xff) << 8
+	return dm_build_1021
 }
 
-func (Dm_build_1323 *dm_build_1219) Dm_build_1322(dm_build_1324 []byte, dm_build_1325 int) int32 {
-	var dm_build_1326 int32
-	dm_build_1326 = int32(dm_build_1324[dm_build_1325] & 0xff)
-	dm_build_1325++
-	dm_build_1326 |= int32(dm_build_1324[dm_build_1325]&0xff) << 8
-	dm_build_1325++
-	dm_build_1326 |= int32(dm_build_1324[dm_build_1325]&0xff) << 16
-	dm_build_1325++
-	dm_build_1326 |= int32(dm_build_1324[dm_build_1325]&0xff) << 24
-	return dm_build_1326
+func (Dm_build_1023 *dm_build_919) Dm_build_1022(dm_build_1024 []byte, dm_build_1025 int) int32 {
+	var dm_build_1026 int32
+	dm_build_1026 = int32(dm_build_1024[dm_build_1025] & 0xff)
+	dm_build_1025++
+	dm_build_1026 |= int32(dm_build_1024[dm_build_1025]&0xff) << 8
+	dm_build_1025++
+	dm_build_1026 |= int32(dm_build_1024[dm_build_1025]&0xff) << 16
+	dm_build_1025++
+	dm_build_1026 |= int32(dm_build_1024[dm_build_1025]&0xff) << 24
+	return dm_build_1026
 }
 
-func (Dm_build_1328 *dm_build_1219) Dm_build_1327(dm_build_1329 []byte, dm_build_1330 int) int64 {
-	var dm_build_1331 int64
-	dm_build_1331 = int64(dm_build_1329[dm_build_1330] & 0xff)
-	dm_build_1330++
-	dm_build_1331 |= int64(dm_build_1329[dm_build_1330]&0xff) << 8
-	dm_build_1330++
-	dm_build_1331 |= int64(dm_build_1329[dm_build_1330]&0xff) << 16
-	dm_build_1330++
-	dm_build_1331 |= int64(dm_build_1329[dm_build_1330]&0xff) << 24
-	dm_build_1330++
-	dm_build_1331 |= int64(dm_build_1329[dm_build_1330]&0xff) << 32
-	dm_build_1330++
-	dm_build_1331 |= int64(dm_build_1329[dm_build_1330]&0xff) << 40
-	dm_build_1330++
-	dm_build_1331 |= int64(dm_build_1329[dm_build_1330]&0xff) << 48
-	dm_build_1330++
-	dm_build_1331 |= int64(dm_build_1329[dm_build_1330]&0xff) << 56
-	return dm_build_1331
+func (Dm_build_1028 *dm_build_919) Dm_build_1027(dm_build_1029 []byte, dm_build_1030 int) int64 {
+	var dm_build_1031 int64
+	dm_build_1031 = int64(dm_build_1029[dm_build_1030] & 0xff)
+	dm_build_1030++
+	dm_build_1031 |= int64(dm_build_1029[dm_build_1030]&0xff) << 8
+	dm_build_1030++
+	dm_build_1031 |= int64(dm_build_1029[dm_build_1030]&0xff) << 16
+	dm_build_1030++
+	dm_build_1031 |= int64(dm_build_1029[dm_build_1030]&0xff) << 24
+	dm_build_1030++
+	dm_build_1031 |= int64(dm_build_1029[dm_build_1030]&0xff) << 32
+	dm_build_1030++
+	dm_build_1031 |= int64(dm_build_1029[dm_build_1030]&0xff) << 40
+	dm_build_1030++
+	dm_build_1031 |= int64(dm_build_1029[dm_build_1030]&0xff) << 48
+	dm_build_1030++
+	dm_build_1031 |= int64(dm_build_1029[dm_build_1030]&0xff) << 56
+	return dm_build_1031
 }
 
-func (Dm_build_1333 *dm_build_1219) Dm_build_1332(dm_build_1334 []byte, dm_build_1335 int) float32 {
-	return math.Float32frombits(Dm_build_1333.Dm_build_1349(dm_build_1334, dm_build_1335))
+func (Dm_build_1033 *dm_build_919) Dm_build_1032(dm_build_1034 []byte, dm_build_1035 int) float32 {
+	return math.Float32frombits(Dm_build_1033.Dm_build_1049(dm_build_1034, dm_build_1035))
 }
 
-func (Dm_build_1337 *dm_build_1219) Dm_build_1336(dm_build_1338 []byte, dm_build_1339 int) float64 {
-	return math.Float64frombits(Dm_build_1337.Dm_build_1354(dm_build_1338, dm_build_1339))
+func (Dm_build_1037 *dm_build_919) Dm_build_1036(dm_build_1038 []byte, dm_build_1039 int) float64 {
+	return math.Float64frombits(Dm_build_1037.Dm_build_1054(dm_build_1038, dm_build_1039))
 }
 
-func (Dm_build_1341 *dm_build_1219) Dm_build_1340(dm_build_1342 []byte, dm_build_1343 int) uint8 {
-	return uint8(dm_build_1342[dm_build_1343] & 0xff)
+func (Dm_build_1041 *dm_build_919) Dm_build_1040(dm_build_1042 []byte, dm_build_1043 int) uint8 {
+	return uint8(dm_build_1042[dm_build_1043] & 0xff)
 }
 
-func (Dm_build_1345 *dm_build_1219) Dm_build_1344(dm_build_1346 []byte, dm_build_1347 int) uint16 {
-	var dm_build_1348 uint16
-	dm_build_1348 = uint16(dm_build_1346[dm_build_1347] & 0xff)
-	dm_build_1347++
-	dm_build_1348 |= uint16(dm_build_1346[dm_build_1347]&0xff) << 8
-	return dm_build_1348
+func (Dm_build_1045 *dm_build_919) Dm_build_1044(dm_build_1046 []byte, dm_build_1047 int) uint16 {
+	var dm_build_1048 uint16
+	dm_build_1048 = uint16(dm_build_1046[dm_build_1047] & 0xff)
+	dm_build_1047++
+	dm_build_1048 |= uint16(dm_build_1046[dm_build_1047]&0xff) << 8
+	return dm_build_1048
 }
 
-func (Dm_build_1350 *dm_build_1219) Dm_build_1349(dm_build_1351 []byte, dm_build_1352 int) uint32 {
-	var dm_build_1353 uint32
-	dm_build_1353 = uint32(dm_build_1351[dm_build_1352] & 0xff)
-	dm_build_1352++
-	dm_build_1353 |= uint32(dm_build_1351[dm_build_1352]&0xff) << 8
-	dm_build_1352++
-	dm_build_1353 |= uint32(dm_build_1351[dm_build_1352]&0xff) << 16
-	dm_build_1352++
-	dm_build_1353 |= uint32(dm_build_1351[dm_build_1352]&0xff) << 24
-	return dm_build_1353
+func (Dm_build_1050 *dm_build_919) Dm_build_1049(dm_build_1051 []byte, dm_build_1052 int) uint32 {
+	var dm_build_1053 uint32
+	dm_build_1053 = uint32(dm_build_1051[dm_build_1052] & 0xff)
+	dm_build_1052++
+	dm_build_1053 |= uint32(dm_build_1051[dm_build_1052]&0xff) << 8
+	dm_build_1052++
+	dm_build_1053 |= uint32(dm_build_1051[dm_build_1052]&0xff) << 16
+	dm_build_1052++
+	dm_build_1053 |= uint32(dm_build_1051[dm_build_1052]&0xff) << 24
+	return dm_build_1053
 }
 
-func (Dm_build_1355 *dm_build_1219) Dm_build_1354(dm_build_1356 []byte, dm_build_1357 int) uint64 {
-	var dm_build_1358 uint64
-	dm_build_1358 = uint64(dm_build_1356[dm_build_1357] & 0xff)
-	dm_build_1357++
-	dm_build_1358 |= uint64(dm_build_1356[dm_build_1357]&0xff) << 8
-	dm_build_1357++
-	dm_build_1358 |= uint64(dm_build_1356[dm_build_1357]&0xff) << 16
-	dm_build_1357++
-	dm_build_1358 |= uint64(dm_build_1356[dm_build_1357]&0xff) << 24
-	dm_build_1357++
-	dm_build_1358 |= uint64(dm_build_1356[dm_build_1357]&0xff) << 32
-	dm_build_1357++
-	dm_build_1358 |= uint64(dm_build_1356[dm_build_1357]&0xff) << 40
-	dm_build_1357++
-	dm_build_1358 |= uint64(dm_build_1356[dm_build_1357]&0xff) << 48
-	dm_build_1357++
-	dm_build_1358 |= uint64(dm_build_1356[dm_build_1357]&0xff) << 56
-	return dm_build_1358
+func (Dm_build_1055 *dm_build_919) Dm_build_1054(dm_build_1056 []byte, dm_build_1057 int) uint64 {
+	var dm_build_1058 uint64
+	dm_build_1058 = uint64(dm_build_1056[dm_build_1057] & 0xff)
+	dm_build_1057++
+	dm_build_1058 |= uint64(dm_build_1056[dm_build_1057]&0xff) << 8
+	dm_build_1057++
+	dm_build_1058 |= uint64(dm_build_1056[dm_build_1057]&0xff) << 16
+	dm_build_1057++
+	dm_build_1058 |= uint64(dm_build_1056[dm_build_1057]&0xff) << 24
+	dm_build_1057++
+	dm_build_1058 |= uint64(dm_build_1056[dm_build_1057]&0xff) << 32
+	dm_build_1057++
+	dm_build_1058 |= uint64(dm_build_1056[dm_build_1057]&0xff) << 40
+	dm_build_1057++
+	dm_build_1058 |= uint64(dm_build_1056[dm_build_1057]&0xff) << 48
+	dm_build_1057++
+	dm_build_1058 |= uint64(dm_build_1056[dm_build_1057]&0xff) << 56
+	return dm_build_1058
 }
 
-func (Dm_build_1360 *dm_build_1219) Dm_build_1359(dm_build_1361 []byte, dm_build_1362 int) []byte {
-	dm_build_1363 := Dm_build_1360.Dm_build_1349(dm_build_1361, dm_build_1362)
+func (Dm_build_1060 *dm_build_919) Dm_build_1059(dm_build_1061 []byte, dm_build_1062 int) []byte {
+	dm_build_1063 := Dm_build_1060.Dm_build_1049(dm_build_1061, dm_build_1062)
 
-	dm_build_1364 := make([]byte, dm_build_1363)
-	copy(dm_build_1364[:int(dm_build_1363)], dm_build_1361[dm_build_1362+4:dm_build_1362+4+int(dm_build_1363)])
-	return dm_build_1364
+	dm_build_1064 := make([]byte, dm_build_1063)
+	copy(dm_build_1064[:int(dm_build_1063)], dm_build_1061[dm_build_1062+4:dm_build_1062+4+int(dm_build_1063)])
+	return dm_build_1064
 }
 
-func (Dm_build_1366 *dm_build_1219) Dm_build_1365(dm_build_1367 []byte, dm_build_1368 int) []byte {
-	dm_build_1369 := Dm_build_1366.Dm_build_1344(dm_build_1367, dm_build_1368)
+func (Dm_build_1066 *dm_build_919) Dm_build_1065(dm_build_1067 []byte, dm_build_1068 int) []byte {
+	dm_build_1069 := Dm_build_1066.Dm_build_1044(dm_build_1067, dm_build_1068)
 
-	dm_build_1370 := make([]byte, dm_build_1369)
-	copy(dm_build_1370[:int(dm_build_1369)], dm_build_1367[dm_build_1368+2:dm_build_1368+2+int(dm_build_1369)])
-	return dm_build_1370
+	dm_build_1070 := make([]byte, dm_build_1069)
+	copy(dm_build_1070[:int(dm_build_1069)], dm_build_1067[dm_build_1068+2:dm_build_1068+2+int(dm_build_1069)])
+	return dm_build_1070
 }
 
-func (Dm_build_1372 *dm_build_1219) Dm_build_1371(dm_build_1373 []byte, dm_build_1374 int, dm_build_1375 int) []byte {
+func (Dm_build_1072 *dm_build_919) Dm_build_1071(dm_build_1073 []byte, dm_build_1074 int, dm_build_1075 int) []byte {
 
-	dm_build_1376 := make([]byte, dm_build_1375)
-	copy(dm_build_1376[:dm_build_1375], dm_build_1373[dm_build_1374:dm_build_1374+dm_build_1375])
-	return dm_build_1376
+	dm_build_1076 := make([]byte, dm_build_1075)
+	copy(dm_build_1076[:dm_build_1075], dm_build_1073[dm_build_1074:dm_build_1074+dm_build_1075])
+	return dm_build_1076
 }
 
-func (Dm_build_1378 *dm_build_1219) Dm_build_1377(dm_build_1379 []byte, dm_build_1380 int, dm_build_1381 int, dm_build_1382 string, dm_build_1383 *DmConnection) string {
-	return Dm_build_1378.Dm_build_1470(dm_build_1379[dm_build_1380:dm_build_1380+dm_build_1381], dm_build_1382, dm_build_1383)
+func (Dm_build_1078 *dm_build_919) Dm_build_1077(dm_build_1079 []byte, dm_build_1080 int, dm_build_1081 int, dm_build_1082 string, dm_build_1083 *DmConnection) string {
+	return Dm_build_1078.Dm_build_1172(dm_build_1079[dm_build_1080:dm_build_1080+dm_build_1081], dm_build_1082, dm_build_1083)
 }
 
-func (Dm_build_1385 *dm_build_1219) Dm_build_1384(dm_build_1386 []byte, dm_build_1387 int, dm_build_1388 string, dm_build_1389 *DmConnection) string {
-	dm_build_1390 := Dm_build_1385.Dm_build_1349(dm_build_1386, dm_build_1387)
-	dm_build_1387 += 4
-	return Dm_build_1385.Dm_build_1377(dm_build_1386, dm_build_1387, int(dm_build_1390), dm_build_1388, dm_build_1389)
+func (Dm_build_1085 *dm_build_919) Dm_build_1084(dm_build_1086 []byte, dm_build_1087 int, dm_build_1088 string, dm_build_1089 *DmConnection) string {
+	dm_build_1090 := Dm_build_1085.Dm_build_1049(dm_build_1086, dm_build_1087)
+	dm_build_1087 += 4
+	return Dm_build_1085.Dm_build_1077(dm_build_1086, dm_build_1087, int(dm_build_1090), dm_build_1088, dm_build_1089)
 }
 
-func (Dm_build_1392 *dm_build_1219) Dm_build_1391(dm_build_1393 []byte, dm_build_1394 int, dm_build_1395 string, dm_build_1396 *DmConnection) string {
-	dm_build_1397 := Dm_build_1392.Dm_build_1344(dm_build_1393, dm_build_1394)
-	dm_build_1394 += 2
-	return Dm_build_1392.Dm_build_1377(dm_build_1393, dm_build_1394, int(dm_build_1397), dm_build_1395, dm_build_1396)
+func (Dm_build_1092 *dm_build_919) Dm_build_1091(dm_build_1093 []byte, dm_build_1094 int, dm_build_1095 string, dm_build_1096 *DmConnection) string {
+	dm_build_1097 := Dm_build_1092.Dm_build_1044(dm_build_1093, dm_build_1094)
+	dm_build_1094 += 2
+	return Dm_build_1092.Dm_build_1077(dm_build_1093, dm_build_1094, int(dm_build_1097), dm_build_1095, dm_build_1096)
 }
 
-func (Dm_build_1399 *dm_build_1219) Dm_build_1398(dm_build_1400 byte) []byte {
-	return []byte{dm_build_1400}
+func (Dm_build_1099 *dm_build_919) Dm_build_1098(dm_build_1100 byte) []byte {
+	return []byte{dm_build_1100}
 }
 
-func (Dm_build_1402 *dm_build_1219) Dm_build_1401(dm_build_1403 int16) []byte {
-	return []byte{byte(dm_build_1403), byte(dm_build_1403 >> 8)}
+func (Dm_build_1102 *dm_build_919) Dm_build_1101(dm_build_1103 int8) []byte {
+	return []byte{byte(dm_build_1103)}
 }
 
-func (Dm_build_1405 *dm_build_1219) Dm_build_1404(dm_build_1406 int32) []byte {
-	return []byte{byte(dm_build_1406), byte(dm_build_1406 >> 8), byte(dm_build_1406 >> 16), byte(dm_build_1406 >> 24)}
+func (Dm_build_1105 *dm_build_919) Dm_build_1104(dm_build_1106 int16) []byte {
+	return []byte{byte(dm_build_1106), byte(dm_build_1106 >> 8)}
 }
 
-func (Dm_build_1408 *dm_build_1219) Dm_build_1407(dm_build_1409 int64) []byte {
-	return []byte{byte(dm_build_1409), byte(dm_build_1409 >> 8), byte(dm_build_1409 >> 16), byte(dm_build_1409 >> 24), byte(dm_build_1409 >> 32),
-		byte(dm_build_1409 >> 40), byte(dm_build_1409 >> 48), byte(dm_build_1409 >> 56)}
+func (Dm_build_1108 *dm_build_919) Dm_build_1107(dm_build_1109 int32) []byte {
+	return []byte{byte(dm_build_1109), byte(dm_build_1109 >> 8), byte(dm_build_1109 >> 16), byte(dm_build_1109 >> 24)}
 }
 
-func (Dm_build_1411 *dm_build_1219) Dm_build_1410(dm_build_1412 float32) []byte {
-	return Dm_build_1411.Dm_build_1422(math.Float32bits(dm_build_1412))
+func (Dm_build_1111 *dm_build_919) Dm_build_1110(dm_build_1112 int64) []byte {
+	return []byte{byte(dm_build_1112), byte(dm_build_1112 >> 8), byte(dm_build_1112 >> 16), byte(dm_build_1112 >> 24), byte(dm_build_1112 >> 32),
+		byte(dm_build_1112 >> 40), byte(dm_build_1112 >> 48), byte(dm_build_1112 >> 56)}
 }
 
-func (Dm_build_1414 *dm_build_1219) Dm_build_1413(dm_build_1415 float64) []byte {
-	return Dm_build_1414.Dm_build_1425(math.Float64bits(dm_build_1415))
+func (Dm_build_1114 *dm_build_919) Dm_build_1113(dm_build_1115 float32) []byte {
+	return Dm_build_1114.Dm_build_1125(math.Float32bits(dm_build_1115))
 }
 
-func (Dm_build_1417 *dm_build_1219) Dm_build_1416(dm_build_1418 uint8) []byte {
-	return []byte{byte(dm_build_1418)}
+func (Dm_build_1117 *dm_build_919) Dm_build_1116(dm_build_1118 float64) []byte {
+	return Dm_build_1117.Dm_build_1128(math.Float64bits(dm_build_1118))
 }
 
-func (Dm_build_1420 *dm_build_1219) Dm_build_1419(dm_build_1421 uint16) []byte {
-	return []byte{byte(dm_build_1421), byte(dm_build_1421 >> 8)}
+func (Dm_build_1120 *dm_build_919) Dm_build_1119(dm_build_1121 uint8) []byte {
+	return []byte{byte(dm_build_1121)}
 }
 
-func (Dm_build_1423 *dm_build_1219) Dm_build_1422(dm_build_1424 uint32) []byte {
-	return []byte{byte(dm_build_1424), byte(dm_build_1424 >> 8), byte(dm_build_1424 >> 16), byte(dm_build_1424 >> 24)}
+func (Dm_build_1123 *dm_build_919) Dm_build_1122(dm_build_1124 uint16) []byte {
+	return []byte{byte(dm_build_1124), byte(dm_build_1124 >> 8)}
 }
 
-func (Dm_build_1426 *dm_build_1219) Dm_build_1425(dm_build_1427 uint64) []byte {
-	return []byte{byte(dm_build_1427), byte(dm_build_1427 >> 8), byte(dm_build_1427 >> 16), byte(dm_build_1427 >> 24), byte(dm_build_1427 >> 32), byte(dm_build_1427 >> 40), byte(dm_build_1427 >> 48), byte(dm_build_1427 >> 56)}
+func (Dm_build_1126 *dm_build_919) Dm_build_1125(dm_build_1127 uint32) []byte {
+	return []byte{byte(dm_build_1127), byte(dm_build_1127 >> 8), byte(dm_build_1127 >> 16), byte(dm_build_1127 >> 24)}
 }
 
-func (Dm_build_1429 *dm_build_1219) Dm_build_1428(dm_build_1430 []byte, dm_build_1431 string, dm_build_1432 *DmConnection) []byte {
-	if dm_build_1431 == "UTF-8" {
-		return dm_build_1430
+func (Dm_build_1129 *dm_build_919) Dm_build_1128(dm_build_1130 uint64) []byte {
+	return []byte{byte(dm_build_1130), byte(dm_build_1130 >> 8), byte(dm_build_1130 >> 16), byte(dm_build_1130 >> 24), byte(dm_build_1130 >> 32), byte(dm_build_1130 >> 40), byte(dm_build_1130 >> 48), byte(dm_build_1130 >> 56)}
+}
+
+func (Dm_build_1132 *dm_build_919) Dm_build_1131(dm_build_1133 []byte, dm_build_1134 string, dm_build_1135 *DmConnection) []byte {
+	if dm_build_1134 == "UTF-8" {
+		return dm_build_1133
 	}
 
-	if dm_build_1432 == nil {
-		if e := dm_build_1475(dm_build_1431); e != nil {
+	if dm_build_1135 == nil {
+		if e := dm_build_1177(dm_build_1134); e != nil {
 			tmp, err := ioutil.ReadAll(
-				transform.NewReader(bytes.NewReader(dm_build_1430), e.NewEncoder()),
+				transform.NewReader(bytes.NewReader(dm_build_1133), e.NewEncoder()),
 			)
 			if err != nil {
 				panic("UTF8 To Charset error!")
@@ -340,25 +344,25 @@ func (Dm_build_1429 *dm_build_1219) Dm_build_1428(dm_build_1430 []byte, dm_build
 		panic("Unsupported Charset!")
 	}
 
-	if dm_build_1432.encodeBuffer == nil {
-		dm_build_1432.encodeBuffer = bytes.NewBuffer(nil)
-		dm_build_1432.encode = dm_build_1475(dm_build_1432.getServerEncoding())
-		dm_build_1432.transformReaderDst = make([]byte, 4096)
-		dm_build_1432.transformReaderSrc = make([]byte, 4096)
+	if dm_build_1135.encodeBuffer == nil {
+		dm_build_1135.encodeBuffer = bytes.NewBuffer(nil)
+		dm_build_1135.encode = dm_build_1177(dm_build_1135.getServerEncoding())
+		dm_build_1135.transformReaderDst = make([]byte, 4096)
+		dm_build_1135.transformReaderSrc = make([]byte, 4096)
 	}
 
-	if e := dm_build_1432.encode; e != nil {
+	if e := dm_build_1135.encode; e != nil {
 
-		dm_build_1432.encodeBuffer.Reset()
+		dm_build_1135.encodeBuffer.Reset()
 
-		n, err := dm_build_1432.encodeBuffer.ReadFrom(
-			Dm_build_1489(bytes.NewReader(dm_build_1430), e.NewEncoder(), dm_build_1432.transformReaderDst, dm_build_1432.transformReaderSrc),
+		n, err := dm_build_1135.encodeBuffer.ReadFrom(
+			Dm_build_1191(bytes.NewReader(dm_build_1133), e.NewEncoder(), dm_build_1135.transformReaderDst, dm_build_1135.transformReaderSrc),
 		)
 		if err != nil {
 			panic("UTF8 To Charset error!")
 		}
 		var tmp = make([]byte, n)
-		if _, err = dm_build_1432.encodeBuffer.Read(tmp); err != nil {
+		if _, err = dm_build_1135.encodeBuffer.Read(tmp); err != nil {
 			panic("UTF8 To Charset error!")
 		}
 		return tmp
@@ -367,177 +371,152 @@ func (Dm_build_1429 *dm_build_1219) Dm_build_1428(dm_build_1430 []byte, dm_build
 	panic("Unsupported Charset!")
 }
 
-func (Dm_build_1434 *dm_build_1219) Dm_build_1433(dm_build_1435 string, dm_build_1436 string, dm_build_1437 *DmConnection) []byte {
-	return Dm_build_1434.Dm_build_1428([]byte(dm_build_1435), dm_build_1436, dm_build_1437)
+func (Dm_build_1137 *dm_build_919) Dm_build_1136(dm_build_1138 string, dm_build_1139 string, dm_build_1140 *DmConnection) []byte {
+	return Dm_build_1137.Dm_build_1131([]byte(dm_build_1138), dm_build_1139, dm_build_1140)
 }
 
-func (Dm_build_1439 *dm_build_1219) Dm_build_1438(dm_build_1440 []byte) byte {
-	return Dm_build_1439.Dm_build_1313(dm_build_1440, 0)
+func (Dm_build_1142 *dm_build_919) Dm_build_1141(dm_build_1143 []byte) byte {
+	return Dm_build_1142.Dm_build_1013(dm_build_1143, 0)
 }
 
-func (Dm_build_1442 *dm_build_1219) Dm_build_1441(dm_build_1443 []byte) int16 {
-	return Dm_build_1442.Dm_build_1317(dm_build_1443, 0)
+func (Dm_build_1145 *dm_build_919) Dm_build_1144(dm_build_1146 []byte) int16 {
+	return Dm_build_1145.Dm_build_1017(dm_build_1146, 0)
 }
 
-func (Dm_build_1445 *dm_build_1219) Dm_build_1444(dm_build_1446 []byte) int32 {
-	return Dm_build_1445.Dm_build_1322(dm_build_1446, 0)
+func (Dm_build_1148 *dm_build_919) Dm_build_1147(dm_build_1149 []byte) int32 {
+	return Dm_build_1148.Dm_build_1022(dm_build_1149, 0)
 }
 
-func (Dm_build_1448 *dm_build_1219) Dm_build_1447(dm_build_1449 []byte) int64 {
-	return Dm_build_1448.Dm_build_1327(dm_build_1449, 0)
+func (Dm_build_1151 *dm_build_919) Dm_build_1150(dm_build_1152 []byte) int64 {
+	return Dm_build_1151.Dm_build_1027(dm_build_1152, 0)
 }
 
-func (Dm_build_1451 *dm_build_1219) Dm_build_1450(dm_build_1452 []byte) float32 {
-	return Dm_build_1451.Dm_build_1332(dm_build_1452, 0)
+func (Dm_build_1154 *dm_build_919) Dm_build_1153(dm_build_1155 []byte) float32 {
+	return Dm_build_1154.Dm_build_1032(dm_build_1155, 0)
 }
 
-func (Dm_build_1454 *dm_build_1219) Dm_build_1453(dm_build_1455 []byte) float64 {
-	return Dm_build_1454.Dm_build_1336(dm_build_1455, 0)
+func (Dm_build_1157 *dm_build_919) Dm_build_1156(dm_build_1158 []byte) float64 {
+	return Dm_build_1157.Dm_build_1036(dm_build_1158, 0)
 }
 
-func (Dm_build_1457 *dm_build_1219) Dm_build_1456(dm_build_1458 []byte) uint8 {
-	return Dm_build_1457.Dm_build_1340(dm_build_1458, 0)
+func (Dm_build_1160 *dm_build_919) Dm_build_1159(dm_build_1161 []byte) uint8 {
+	return Dm_build_1160.Dm_build_1040(dm_build_1161, 0)
 }
 
-func (Dm_build_1460 *dm_build_1219) Dm_build_1459(dm_build_1461 []byte) uint16 {
-	return Dm_build_1460.Dm_build_1344(dm_build_1461, 0)
+func (Dm_build_1163 *dm_build_919) Dm_build_1162(dm_build_1164 []byte) uint16 {
+	return Dm_build_1163.Dm_build_1044(dm_build_1164, 0)
 }
 
-func (Dm_build_1463 *dm_build_1219) Dm_build_1462(dm_build_1464 []byte) uint32 {
-	return Dm_build_1463.Dm_build_1349(dm_build_1464, 0)
+func (Dm_build_1166 *dm_build_919) Dm_build_1165(dm_build_1167 []byte) uint32 {
+	return Dm_build_1166.Dm_build_1049(dm_build_1167, 0)
 }
 
-func (Dm_build_1466 *dm_build_1219) Dm_build_1465(dm_build_1467 []byte, dm_build_1468 string, dm_build_1469 *DmConnection) []byte {
-	if dm_build_1468 == "UTF-8" {
-		return dm_build_1467
+func (Dm_build_1169 *dm_build_919) Dm_build_1168(dm_build_1170 []byte, dm_build_1171 string) []byte {
+	if dm_build_1171 == "UTF-8" {
+		return dm_build_1170
 	}
 
-	if dm_build_1469 == nil {
-		if e := dm_build_1475(dm_build_1468); e != nil {
+	if e := dm_build_1177(dm_build_1171); e != nil {
 
-			tmp, err := ioutil.ReadAll(
-				transform.NewReader(bytes.NewReader(dm_build_1467), e.NewDecoder()),
-			)
-			if err != nil {
-
-				panic("Charset To UTF8 error!")
-			}
-
-			return tmp
-		}
-
-		panic("Unsupported Charset!")
-	}
-
-	if dm_build_1469.encodeBuffer == nil {
-		dm_build_1469.encodeBuffer = bytes.NewBuffer(nil)
-		dm_build_1469.encode = dm_build_1475(dm_build_1469.getServerEncoding())
-		dm_build_1469.transformReaderDst = make([]byte, 4096)
-		dm_build_1469.transformReaderSrc = make([]byte, 4096)
-	}
-
-	if e := dm_build_1469.encode; e != nil {
-
-		dm_build_1469.encodeBuffer.Reset()
-
-		n, err := dm_build_1469.encodeBuffer.ReadFrom(
-			Dm_build_1489(bytes.NewReader(dm_build_1467), e.NewDecoder(), dm_build_1469.transformReaderDst, dm_build_1469.transformReaderSrc),
+		tmp, err := ioutil.ReadAll(
+			transform.NewReader(bytes.NewReader(dm_build_1170), e.NewDecoder()),
 		)
 		if err != nil {
 
 			panic("Charset To UTF8 error!")
 		}
 
-		return dm_build_1469.encodeBuffer.Next(int(n))
+		return tmp
 	}
 
 	panic("Unsupported Charset!")
+
 }
 
-func (Dm_build_1471 *dm_build_1219) Dm_build_1470(dm_build_1472 []byte, dm_build_1473 string, dm_build_1474 *DmConnection) string {
-	return string(Dm_build_1471.Dm_build_1465(dm_build_1472, dm_build_1473, dm_build_1474))
+func (Dm_build_1173 *dm_build_919) Dm_build_1172(dm_build_1174 []byte, dm_build_1175 string, dm_build_1176 *DmConnection) string {
+	return string(Dm_build_1173.Dm_build_1168(dm_build_1174, dm_build_1175))
 }
 
-func dm_build_1475(dm_build_1476 string) encoding.Encoding {
-	if e, err := ianaindex.MIB.Encoding(dm_build_1476); err == nil && e != nil {
+func dm_build_1177(dm_build_1178 string) encoding.Encoding {
+	if e, err := ianaindex.MIB.Encoding(dm_build_1178); err == nil && e != nil {
 		return e
 	}
 	return nil
 }
 
-type Dm_build_1477 struct {
-	dm_build_1478 io.Reader
-	dm_build_1479 transform.Transformer
-	dm_build_1480 error
+type Dm_build_1179 struct {
+	dm_build_1180 io.Reader
+	dm_build_1181 transform.Transformer
+	dm_build_1182 error
 
-	dm_build_1481                []byte
-	dm_build_1482, dm_build_1483 int
+	dm_build_1183                []byte
+	dm_build_1184, dm_build_1185 int
 
-	dm_build_1484                []byte
-	dm_build_1485, dm_build_1486 int
+	dm_build_1186                []byte
+	dm_build_1187, dm_build_1188 int
 
-	dm_build_1487 bool
+	dm_build_1189 bool
 }
 
-const dm_build_1488 = 4096
+const dm_build_1190 = 4096
 
-func Dm_build_1489(dm_build_1490 io.Reader, dm_build_1491 transform.Transformer, dm_build_1492 []byte, dm_build_1493 []byte) *Dm_build_1477 {
-	dm_build_1491.Reset()
-	return &Dm_build_1477{
-		dm_build_1478: dm_build_1490,
-		dm_build_1479: dm_build_1491,
-		dm_build_1481: dm_build_1492,
-		dm_build_1484: dm_build_1493,
+func Dm_build_1191(dm_build_1192 io.Reader, dm_build_1193 transform.Transformer, dm_build_1194 []byte, dm_build_1195 []byte) *Dm_build_1179 {
+	dm_build_1193.Reset()
+	return &Dm_build_1179{
+		dm_build_1180: dm_build_1192,
+		dm_build_1181: dm_build_1193,
+		dm_build_1183: dm_build_1194,
+		dm_build_1186: dm_build_1195,
 	}
 }
 
-func (dm_build_1495 *Dm_build_1477) Read(dm_build_1496 []byte) (int, error) {
-	dm_build_1497, dm_build_1498 := 0, error(nil)
+func (dm_build_1197 *Dm_build_1179) Read(dm_build_1198 []byte) (int, error) {
+	dm_build_1199, dm_build_1200 := 0, error(nil)
 	for {
 
-		if dm_build_1495.dm_build_1482 != dm_build_1495.dm_build_1483 {
-			dm_build_1497 = copy(dm_build_1496, dm_build_1495.dm_build_1481[dm_build_1495.dm_build_1482:dm_build_1495.dm_build_1483])
-			dm_build_1495.dm_build_1482 += dm_build_1497
-			if dm_build_1495.dm_build_1482 == dm_build_1495.dm_build_1483 && dm_build_1495.dm_build_1487 {
-				return dm_build_1497, dm_build_1495.dm_build_1480
+		if dm_build_1197.dm_build_1184 != dm_build_1197.dm_build_1185 {
+			dm_build_1199 = copy(dm_build_1198, dm_build_1197.dm_build_1183[dm_build_1197.dm_build_1184:dm_build_1197.dm_build_1185])
+			dm_build_1197.dm_build_1184 += dm_build_1199
+			if dm_build_1197.dm_build_1184 == dm_build_1197.dm_build_1185 && dm_build_1197.dm_build_1189 {
+				return dm_build_1199, dm_build_1197.dm_build_1182
 			}
-			return dm_build_1497, nil
-		} else if dm_build_1495.dm_build_1487 {
-			return 0, dm_build_1495.dm_build_1480
+			return dm_build_1199, nil
+		} else if dm_build_1197.dm_build_1189 {
+			return 0, dm_build_1197.dm_build_1182
 		}
 
-		if dm_build_1495.dm_build_1485 != dm_build_1495.dm_build_1486 || dm_build_1495.dm_build_1480 != nil {
-			dm_build_1495.dm_build_1482 = 0
-			dm_build_1495.dm_build_1483, dm_build_1497, dm_build_1498 = dm_build_1495.dm_build_1479.Transform(dm_build_1495.dm_build_1481, dm_build_1495.dm_build_1484[dm_build_1495.dm_build_1485:dm_build_1495.dm_build_1486], dm_build_1495.dm_build_1480 == io.EOF)
-			dm_build_1495.dm_build_1485 += dm_build_1497
+		if dm_build_1197.dm_build_1187 != dm_build_1197.dm_build_1188 || dm_build_1197.dm_build_1182 != nil {
+			dm_build_1197.dm_build_1184 = 0
+			dm_build_1197.dm_build_1185, dm_build_1199, dm_build_1200 = dm_build_1197.dm_build_1181.Transform(dm_build_1197.dm_build_1183, dm_build_1197.dm_build_1186[dm_build_1197.dm_build_1187:dm_build_1197.dm_build_1188], dm_build_1197.dm_build_1182 == io.EOF)
+			dm_build_1197.dm_build_1187 += dm_build_1199
 
 			switch {
-			case dm_build_1498 == nil:
-				if dm_build_1495.dm_build_1485 != dm_build_1495.dm_build_1486 {
-					dm_build_1495.dm_build_1480 = nil
+			case dm_build_1200 == nil:
+				if dm_build_1197.dm_build_1187 != dm_build_1197.dm_build_1188 {
+					dm_build_1197.dm_build_1182 = nil
 				}
 
-				dm_build_1495.dm_build_1487 = dm_build_1495.dm_build_1480 != nil
+				dm_build_1197.dm_build_1189 = dm_build_1197.dm_build_1182 != nil
 				continue
-			case dm_build_1498 == transform.ErrShortDst && (dm_build_1495.dm_build_1483 != 0 || dm_build_1497 != 0):
+			case dm_build_1200 == transform.ErrShortDst && (dm_build_1197.dm_build_1185 != 0 || dm_build_1199 != 0):
 
 				continue
-			case dm_build_1498 == transform.ErrShortSrc && dm_build_1495.dm_build_1486-dm_build_1495.dm_build_1485 != len(dm_build_1495.dm_build_1484) && dm_build_1495.dm_build_1480 == nil:
+			case dm_build_1200 == transform.ErrShortSrc && dm_build_1197.dm_build_1188-dm_build_1197.dm_build_1187 != len(dm_build_1197.dm_build_1186) && dm_build_1197.dm_build_1182 == nil:
 
 			default:
-				dm_build_1495.dm_build_1487 = true
+				dm_build_1197.dm_build_1189 = true
 
-				if dm_build_1495.dm_build_1480 == nil || dm_build_1495.dm_build_1480 == io.EOF {
-					dm_build_1495.dm_build_1480 = dm_build_1498
+				if dm_build_1197.dm_build_1182 == nil || dm_build_1197.dm_build_1182 == io.EOF {
+					dm_build_1197.dm_build_1182 = dm_build_1200
 				}
 				continue
 			}
 		}
 
-		if dm_build_1495.dm_build_1485 != 0 {
-			dm_build_1495.dm_build_1485, dm_build_1495.dm_build_1486 = 0, copy(dm_build_1495.dm_build_1484, dm_build_1495.dm_build_1484[dm_build_1495.dm_build_1485:dm_build_1495.dm_build_1486])
+		if dm_build_1197.dm_build_1187 != 0 {
+			dm_build_1197.dm_build_1187, dm_build_1197.dm_build_1188 = 0, copy(dm_build_1197.dm_build_1186, dm_build_1197.dm_build_1186[dm_build_1197.dm_build_1187:dm_build_1197.dm_build_1188])
 		}
-		dm_build_1497, dm_build_1495.dm_build_1480 = dm_build_1495.dm_build_1478.Read(dm_build_1495.dm_build_1484[dm_build_1495.dm_build_1486:])
-		dm_build_1495.dm_build_1486 += dm_build_1497
+		dm_build_1199, dm_build_1197.dm_build_1182 = dm_build_1197.dm_build_1180.Read(dm_build_1197.dm_build_1186[dm_build_1197.dm_build_1188:])
+		dm_build_1197.dm_build_1188 += dm_build_1199
 	}
 }

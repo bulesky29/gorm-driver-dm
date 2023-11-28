@@ -2,13 +2,12 @@
  * Copyright (c) 2000-2018, 达梦数据库有限公司.
  * All rights reserved.
  */
-package dmr
+package dm
 
 import (
 	"bytes"
 	"context"
 	"database/sql/driver"
-	"fmt"
 	"net"
 	"net/url"
 	"os"
@@ -17,9 +16,10 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-	"unicode/utf8"
+	"sync"
+	"time"
 
-	"github.com/bulesky29/gorm-driver-dm/dmr/util"
+	"gitee.com/chunanyong/dm/util"
 )
 
 const (
@@ -49,6 +49,7 @@ const (
 	CompatibleOraKey         = "comOra"
 	CipherPathKey            = "cipherPath"
 	DoSwitchKey              = "doSwitch"
+	DriverReconnectKey       = "driverReconnect"
 	ClusterKey               = "cluster"
 	LanguageKey              = "language"
 	DbAliveCheckFreqKey      = "dbAliveCheckFreq"
@@ -111,8 +112,6 @@ const (
 	OsAuthTypeKey            = "osAuthType"
 	SchemaKey                = "schema"
 
-	TIME_ZONE_DEFAULT int16 = 480
-
 	DO_SWITCH_OFF             int32 = 0
 	DO_SWITCH_WHEN_CONN_ERROR int32 = 1
 	DO_SWITCH_WHEN_EP_RECOVER int32 = 2
@@ -156,14 +155,16 @@ const (
 
 	LANGUAGE_EN int = 1
 
+	LANGUAGE_CNT_HK = 2
+
 	COLUMN_NAME_NATURAL_CASE = 0
 
 	COLUMN_NAME_UPPER_CASE = 1
 
 	COLUMN_NAME_LOWER_CASE = 2
 
-	compressDef   = Dm_build_681
-	compressIDDef = Dm_build_682
+	compressDef   = Dm_build_361
+	compressIDDef = Dm_build_362
 
 	charCodeDef = ""
 
@@ -217,7 +218,7 @@ const (
 
 	sessionTimeoutDef = 0
 
-	osAuthTypeDef = Dm_build_664
+	osAuthTypeDef = Dm_build_344
 
 	continueBatchOnErrorDef = false
 
@@ -227,7 +228,7 @@ const (
 
 	maxRowsDef = 0
 
-	rowPrefetchDef = Dm_build_665
+	rowPrefetchDef = Dm_build_345
 
 	bufPrefetchDef = 0
 
@@ -252,12 +253,12 @@ const (
 	caseSensitiveDef = true
 
 	compatibleModeDef = 0
-
-	localTimezoneDef = TIME_ZONE_DEFAULT
 )
 
 type DmConnector struct {
 	filterable
+
+	mu sync.Mutex
 
 	dmDriver *DmDriver
 
@@ -310,6 +311,8 @@ type DmConnector struct {
 	rwIgnoreSql bool
 
 	doSwitch int32
+
+	driverReconnect bool
 
 	cluster int32
 
@@ -393,8 +396,6 @@ type DmConnector struct {
 
 	schema string
 
-	reConnection *DmConnection
-
 	logLevel int
 
 	logDir string
@@ -444,7 +445,8 @@ func (c *DmConnector) init() *DmConnector {
 	c.rwAutoDistribute = rwAutoDistributeDef
 	c.rwStandbyRecoverTime = rwStandbyRecoverTimeDef
 	c.rwIgnoreSql = false
-	c.doSwitch = DO_SWITCH_OFF
+	c.doSwitch = DO_SWITCH_WHEN_CONN_ERROR
+	c.driverReconnect = false
 	c.cluster = CLUSTER_TYPE_NORMAL
 	c.cipherPath = cipherPathDef
 	c.url = urlDef
@@ -479,7 +481,8 @@ func (c *DmConnector) init() *DmConnector {
 	c.columnNameCase = COLUMN_NAME_NATURAL_CASE
 	c.caseSensitive = caseSensitiveDef
 	c.compatibleMode = compatibleModeDef
-	c.localTimezone = localTimezoneDef
+	_, tzs := time.Now().Zone()
+	c.localTimezone = int16(tzs / 60)
 	c.idGenerator = dmConntorIDGenerator
 
 	c.logDir = LogDirDef
@@ -509,7 +512,7 @@ func (c *DmConnector) setAttributes(props *Properties) error {
 	c.rwStandby = props.GetBool(RwStandbyKey, c.rwStandby)
 
 	if b := props.GetBool(IsCompressKey, false); b {
-		c.compress = Dm_build_680
+		c.compress = Dm_build_360
 	}
 
 	c.compress = props.GetInt(CompressKey, c.compress, 0, 2)
@@ -527,6 +530,7 @@ func (c *DmConnector) setAttributes(props *Properties) error {
 	c.loginEncrypt = props.GetBool(LoginEncryptKey, c.loginEncrypt)
 	c.loginCertificate = props.GetTrimString(LoginCertificateKey, c.loginCertificate)
 	c.dec2Double = props.GetBool(Dec2DoubleKey, c.dec2Double)
+	parseLanguage(props.GetString(LanguageKey, ""))
 
 	c.rwSeparate = props.GetBool(RwSeparateKey, c.rwSeparate)
 	c.rwAutoDistribute = props.GetBool(RwAutoDistributeKey, c.rwAutoDistribute)
@@ -535,6 +539,7 @@ func (c *DmConnector) setAttributes(props *Properties) error {
 	c.rwStandbyRecoverTime = props.GetInt(RwStandbyRecoverTimeKey, c.rwStandbyRecoverTime, 0, int(INT32_MAX))
 	c.rwIgnoreSql = props.GetBool(RwIgnoreSqlKey, c.rwIgnoreSql)
 	c.doSwitch = int32(props.GetInt(DoSwitchKey, int(c.doSwitch), 0, 2))
+	c.driverReconnect = props.GetBool(DriverReconnectKey, c.driverReconnect)
 	c.parseCluster(props)
 	c.cipherPath = props.GetTrimString(CipherPathKey, c.cipherPath)
 
@@ -561,7 +566,7 @@ func (c *DmConnector) setAttributes(props *Properties) error {
 	c.autoCommit = props.GetBool(AutoCommitKey, c.autoCommit)
 	c.maxRows = props.GetInt(MaxRowsKey, c.maxRows, 0, int(INT32_MAX))
 	c.rowPrefetch = props.GetInt(RowPrefetchKey, c.rowPrefetch, 0, int(INT32_MAX))
-	c.bufPrefetch = props.GetInt(BufPrefetchKey, c.bufPrefetch, int(Dm_build_666), int(Dm_build_667))
+	c.bufPrefetch = props.GetInt(BufPrefetchKey, c.bufPrefetch, int(Dm_build_346), int(Dm_build_347))
 	c.lobMode = props.GetInt(LobModeKey, c.lobMode, 1, 2)
 	c.stmtPoolMaxSize = props.GetInt(StmtPoolSizeKey, c.stmtPoolMaxSize, 0, int(INT32_MAX))
 	c.ignoreCase = props.GetBool(IgnoreCaseKey, c.ignoreCase)
@@ -630,26 +635,26 @@ func (c *DmConnector) parseOsAuthType(props *Properties) error {
 	value := props.GetString(OsAuthTypeKey, "")
 	if value != "" && !util.StringUtil.IsDigit(value) {
 		if util.StringUtil.EqualsIgnoreCase(value, "ON") {
-			c.osAuthType = Dm_build_664
+			c.osAuthType = Dm_build_344
 		} else if util.StringUtil.EqualsIgnoreCase(value, "SYSDBA") {
-			c.osAuthType = Dm_build_660
+			c.osAuthType = Dm_build_340
 		} else if util.StringUtil.EqualsIgnoreCase(value, "SYSAUDITOR") {
-			c.osAuthType = Dm_build_662
+			c.osAuthType = Dm_build_342
 		} else if util.StringUtil.EqualsIgnoreCase(value, "SYSSSO") {
-			c.osAuthType = Dm_build_661
+			c.osAuthType = Dm_build_341
 		} else if util.StringUtil.EqualsIgnoreCase(value, "AUTO") {
-			c.osAuthType = Dm_build_663
+			c.osAuthType = Dm_build_343
 		} else if util.StringUtil.EqualsIgnoreCase(value, "OFF") {
-			c.osAuthType = Dm_build_659
+			c.osAuthType = Dm_build_339
 		}
 	} else {
 		c.osAuthType = byte(props.GetInt(OsAuthTypeKey, int(c.osAuthType), 0, 4))
 	}
-	if c.user == "" && c.osAuthType == Dm_build_659 {
+	if c.user == "" && c.osAuthType == Dm_build_339 {
 		c.user = "SYSDBA"
-	} else if c.osAuthType != Dm_build_659 && c.user != "" {
+	} else if c.osAuthType != Dm_build_339 && c.user != "" {
 		return ECGO_OSAUTH_ERROR.throw()
-	} else if c.osAuthType != Dm_build_659 {
+	} else if c.osAuthType != Dm_build_339 {
 		c.user = os.Getenv("user")
 		c.password = ""
 	}
@@ -776,17 +781,31 @@ func (c *DmConnector) mergeConfigs(dsn string) error {
 
 	c.user = c.remap(c.user, userRemapStr)
 
-	if group, ok := ServerGroupMap[strings.ToLower(host)]; ok {
+	if a := props.GetTrimString(host, ""); a != "" {
+
+		if strings.HasPrefix(a, "(") && strings.HasSuffix(a, ")") {
+			a = strings.TrimSpace(a[1 : len(a)-1])
+		}
+		c.group = parseServerName(host, a)
+		if c.group != nil {
+			c.group.props = NewProperties()
+			c.group.props.SetProperties(GlobalProperties)
+		}
+	} else if group, ok := ServerGroupMap[strings.ToLower(host)]; ok {
+
 		c.group = group
 	} else {
 		host, port, err := net.SplitHostPort(host)
-		errDomain := checkDomain(host)
-		isDomain := errDomain == nil
-		if err != nil || (net.ParseIP(host) == nil && !isDomain) {
-			c.host = hostDef
-		} else {
-			c.host = host
+		if err == nil {
+			ip := net.ParseIP(host)
+			if ip != nil && len(ip) == net.IPv6len {
+
+				host = "[" + host + "]"
+			}
 		}
+
+		c.host = host
+
 		tmpPort, err := strconv.Atoi(port)
 		if err != nil {
 			c.port = portDef
@@ -830,10 +849,14 @@ func (c *DmConnector) remap(origin string, cfgStr string) string {
 }
 
 func (c *DmConnector) Connect(ctx context.Context) (driver.Conn, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	return c.filterChain.reset().DmConnectorConnect(c, ctx)
 }
 
 func (c *DmConnector) Driver() driver.Driver {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	return c.filterChain.reset().DmConnectorDriver(c)
 }
 
@@ -851,23 +874,17 @@ func (c *DmConnector) driver() *DmDriver {
 
 func (c *DmConnector) connectSingle(ctx context.Context) (*DmConnection, error) {
 	var err error
-	var dc *DmConnection
-	if c.reConnection == nil {
-		dc = &DmConnection{
-			closech: make(chan struct{}),
-		}
-		dc.dmConnector = c
-		dc.autoCommit = c.autoCommit
-		dc.createFilterChain(c, nil)
-
-		dc.objId = -1
-		dc.init()
-	} else {
-		dc = c.reConnection
-		dc.reset()
+	var dc = &DmConnection{
+		closech:     make(chan struct{}),
+		dmConnector: c,
+		autoCommit:  c.autoCommit,
 	}
 
-	dc.Access, err = dm_build_344(dc)
+	dc.createFilterChain(c, nil)
+	dc.objId = -1
+	dc.init()
+
+	dc.Access, err = dm_build_14(dc)
 	if err != nil {
 		return nil, err
 	}
@@ -878,7 +895,7 @@ func (c *DmConnector) connectSingle(ctx context.Context) (*DmConnection, error) 
 	}
 	defer dc.finish()
 
-	if err = dc.Access.dm_build_385(); err != nil {
+	if err = dc.Access.dm_build_56(); err != nil {
 
 		if !dc.closed.IsSet() {
 			close(dc.closech)
@@ -898,55 +915,4 @@ func (c *DmConnector) connectSingle(ctx context.Context) (*DmConnection, error) 
 	}
 
 	return dc, nil
-}
-
-func checkDomain(name string) error {
-	switch {
-	case len(name) == 0:
-		return nil // an empty domain name will result in a cookie without a domain restriction
-	case len(name) > 255:
-		return fmt.Errorf("cookie domain: name length is %d, can't exceed 255", len(name))
-	}
-	var l int
-	for i := 0; i < len(name); i++ {
-		b := name[i]
-		if b == '.' {
-			// check domain labels validity
-			switch {
-			case i == l:
-				return fmt.Errorf("cookie domain: invalid character '%c' at offset %d: label can't begin with a period", b, i)
-			case i-l > 63:
-				return fmt.Errorf("cookie domain: byte length of label '%s' is %d, can't exceed 63", name[l:i], i-l)
-			case name[l] == '-':
-				return fmt.Errorf("cookie domain: label '%s' at offset %d begins with a hyphen", name[l:i], l)
-			case name[i-1] == '-':
-				return fmt.Errorf("cookie domain: label '%s' at offset %d ends with a hyphen", name[l:i], l)
-			}
-			l = i + 1
-			continue
-		}
-		// test label character validity, note: tests are ordered by decreasing validity frequency
-		if !(b >= 'a' && b <= 'z' || b >= '0' && b <= '9' || b == '-' || b >= 'A' && b <= 'Z') {
-			// show the printable unicode character starting at byte offset i
-			c, _ := utf8.DecodeRuneInString(name[i:])
-			if c == utf8.RuneError {
-				return fmt.Errorf("cookie domain: invalid rune at offset %d", i)
-			}
-			return fmt.Errorf("cookie domain: invalid character '%c' at offset %d", c, i)
-		}
-	}
-	// check top level domain validity
-	switch {
-	case l == len(name):
-		return fmt.Errorf("cookie domain: missing top level domain, domain can't end with a period")
-	case len(name)-l > 63:
-		return fmt.Errorf("cookie domain: byte length of top level domain '%s' is %d, can't exceed 63", name[l:], len(name)-l)
-	case name[l] == '-':
-		return fmt.Errorf("cookie domain: top level domain '%s' at offset %d begins with a hyphen", name[l:], l)
-	case name[len(name)-1] == '-':
-		return fmt.Errorf("cookie domain: top level domain '%s' at offset %d ends with a hyphen", name[l:], l)
-	case name[l] >= '0' && name[l] <= '9':
-		return fmt.Errorf("cookie domain: top level domain '%s' at offset %d begins with a digit", name[l:], l)
-	}
-	return nil
 }

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dmr
+package dm
 
 type StructDescriptor struct {
 	m_typeDesc *TypeDescriptor

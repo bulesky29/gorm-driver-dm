@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dmr
+package dm
 
 type ArrayDescriptor struct {
 	m_typeDesc *TypeDescriptor
