@@ -6,7 +6,7 @@
 
 ```go
 import (
-  "github.com/nfjBill/gorm-driver-dm"
+  "github.com/bulesky29/gorm-driver-dm"
   "gorm.io/gorm"
 )
 
