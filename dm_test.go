@@ -2,7 +2,7 @@ package dm
 
 import (
 	"fmt"
-	dmSchema "github.com/nfjBill/gorm-driver-dm/schema"
+	dmSchema "github.com/bulesky29/gorm-driver-dm/schema"
 	"gorm.io/gorm"
 	"testing"
 	"time"

@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/nfjBill/gorm-driver-dm/dmr/util"
+	"github.com/bulesky29/gorm-driver-dm/dmr/util"
 )
 
 /**
